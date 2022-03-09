@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table
+@Table(name = "user")
 public class User implements UserDetails {
 
     @Id

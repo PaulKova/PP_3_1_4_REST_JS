@@ -4,12 +4,15 @@
 <title>Create user</title>
 </head>
 <body>
-<form th:method="PATCH" th:action="@{/edit/{id}(id=${user.getId()})}" th:object="${user}">
+<form th:method="POST" th:action="@{/edit}" th:object="${user}">
     <label for="id">ID</label>
     <input readonly type="number" th:field="*{id}" id="id" placeholder="ID">
     <br/>
     <label for="username">Username</label>
     <input type="text" th:field="*{username}" id="username" placeholder="Name">
+    <br/>
+    <label for="password">Username</label>
+    <input type="text" th:field="*{password}" id="password" placeholder="password">
     <br/>
     <input type="submit" value="Update User">
 </form>

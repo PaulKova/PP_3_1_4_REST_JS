@@ -20,7 +20,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_id")
     private Long id;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     private String role;
 
     @ManyToMany(mappedBy = "roles")
@@ -35,6 +35,10 @@ public class Role implements GrantedAuthority {
 
     public Role(Long id, String role) {
         this.id = id;
+        this.role = role;
+    }
+
+    public Role(String role) {
         this.role = role;
     }
 
