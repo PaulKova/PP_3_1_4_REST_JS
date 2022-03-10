@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/admin}" th:object="${user}">
-    <label for="name">Enter Username</label>
-    <input type="text" th:field="*{username}" id="name"/>
+<form action="#" th:action="@{/adduser}" th:object="${user}" method="post">
+    <label for="username">Enter Username</label>
+    <input type="text" th:field="*{username}" id="username"/>
     <br/>
     <label for="password">Enter password</label>
     <input type="text" th:field="*{password}" id="password"/>

@@ -22,7 +22,7 @@
         <td th:utext="${user.getUsername()}">Name</td>
         <td th:utext="${user.getRoles()}">Role</td>
         <td><a th:href="@{edit/{id}(id=${user.id})}">Edit</a></td>
-        <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
+        <td><a th:href="@{delete/{id}(id=${user.id})}">Delete</a></td>
     </tr>
 
 

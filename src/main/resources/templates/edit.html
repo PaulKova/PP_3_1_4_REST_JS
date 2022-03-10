@@ -4,7 +4,10 @@
 <title>Create user</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/edit}" th:object="${user}">
+<form action="#"
+      th:action="@{/update/{id}(id=${user.id})}"
+      th:object="${user}"
+      method="post">
     <label for="id">ID</label>
     <input readonly type="number" th:field="*{id}" id="id" placeholder="ID">
     <br/>
