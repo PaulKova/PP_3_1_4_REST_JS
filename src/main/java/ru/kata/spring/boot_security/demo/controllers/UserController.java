@@ -18,7 +18,7 @@ public class UserController {
     public String toUser(Principal principal, Model model) {
         User user = (User) userService.loadUserByUsername(principal.getName());
         model.addAttribute("user", user);
-        return "user";
+        return "userPage";
     }
 
 }
