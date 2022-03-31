@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Admin panel</title>
+    <style>
+        nav .nav-link {
+            color: darkgrey;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div>
+        <b class="text-white ms-3"><span th:text="${admen.email}"></span></b>
+        <simple class="text-white">with roles:</simple>
+        <simple class="text-white">
+            <span th:text="${admen.roles}"></span>
+        </simple>
+    </div>
+    <a class="nav-link" href="/logout">Logout</a>
+</nav>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 p-0 mt-2">
+            <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <li class="nav-item">
+                    <a class="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab"
+                       aria-controls="v-pills-admin" aria-selected="true">
+                        <div sec:authorize="hasAuthority('ADMIN')">
+                            Admin
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">
+                        <div sec:authorize="hasAnyAuthority('USER', 'ADMIN')">
+                            User
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-10 bg-light vh-100">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
+                    <div sec:authorize="hasAuthority('ADMIN')">
+                        <h1 class="h1 ">Admin panel</h1>
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-admin-tab" role="tablist">
+                                <button class="nav-link active" id="nav-users-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-users" type="button" role="tab" aria-controls="nav-users" aria-selected="true">Users table</button>
+                                <button class="nav-link" id="nav-new-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-new" type="button" role="tab" aria-controls="nav-new" aria-selected="false">New User</button>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-admin-tabContent">
+                            <div class="tab-pane fade show active" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+                                <div class="card">
+                                    <h5 class="card-header">All users</h5>
+                                    <div class="card-body">
+                                        <p class="card-text"></p>
+                                        <div class="container-fluid" >
+                                            <table id="tableID" class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Surname</th>
+                                                    <th scope="col">Age</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">Roles</th>
+                                                    <th scope="col">Edit</th>
+                                                    <th scope="col">Delete</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="tbodyID">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-new" role="tabpanel" aria-labelledby="nav-new-tab">
+                                <div class="card">
+                                    <h5 class="card-header">Add new user</h5>
+                                </div>
+                                <div class="card-body bg-white text-center border">
+                                    <form id="newForm" >
+                                        <div class="container w-25 needs-validation">
+                                            <div class="mb-3">
+                                                <label  class="form-label"><b>First name</b></label>
+                                                <input type="text"  class="form-control" name="name" placeholder="name" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label  class="form-label"><b>Last name</b></label>
+                                                <input type="text"  class="form-control" name="surname" placeholder="surname" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label"><b>Age</b></label>
+                                                <input type="number" step="1" min="0"  class="form-control" name="age" placeholder="age" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label  class="form-label"><b>Email</b></label>
+                                                <input type="text"  class="form-control" name="email" placeholder="email" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label  class="form-label"><b>Password</b></label>
+                                                <input type="text"  class="form-control" name="password" placeholder="password" required>
+                                            </div>
+                                            <label><b>Role</b></label>
+                                            <select multiple class="form-control" name="roles" size="2" required>
+                                                <option selected="selected" th:value="1" th:text="USER"></option>
+                                                <option th:value="2" th:text="ADMIN"></option>
+                                            </select>
+                                            <simple class="text-white">
+                                                <span th:text="${admen.roles}"></span>
+                                            </simple>
+
+
+                                            <button type="button" class="btn btn-success" onclick="addSubmit()">Add new user</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="Um" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <form id="uForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit user</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body container w-50 text-center">
+                    <div class="form-group">
+                        <label for="uID"><b>ID</b></label>
+                        <input type="text" class="form-control" id="uID" th:name="id" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>First Name</b></label>
+                        <input type="text" class="form-control" id="uName" th:name="name" placeholder="Enter first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Last Name</b></label>
+                        <input type="text" class="form-control" id="uSurname" th:name="surname" placeholder="Enter last name" required>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Age</b></label>
+                        <input type="number" class="form-control" id="uAge" th:name="age" step="1" min="0" placeholder="Enter age" required>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Email</b></label>
+                        <input type="text" class="form-control" id="uEmail" th:name="email" aria-describedby="emailInput" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Password</b></label>
+                        <input type="password" class="form-control" id="uPassword" th:name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Role</b></label>
+                        <select multiple class="form-control" id="uRoles" th:name="roles" size="2" required>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  onclick="updateSubmit()">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Dm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content ">
+            <form id="dForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete user</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body container w-50 text-center">
+                    <div class="form-group">
+                        <label for="dID"><b>ID</b></label>
+                        <input type="text" class="form-control" id="dID"  disabled>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>First Name</b></label>
+                        <input type="text" class="form-control" id="dName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Last Name</b></label>
+                        <input type="text" class="form-control"  id="dSurname" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Age</b></label>
+                        <input type="number" class="form-control" id="dAge" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Email</b></label>
+                        <input type="text" class="form-control" id="dEmail"  disabled>
+                    </div>
+                    <div class="form-group">
+                        <label ><b>Role</b></label>
+                        <select multiple class="form-control" id="dRoles" size="2" disabled>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger" onclick="deleteSubmit()">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+<script src="/main.js"></script>
+
+</body>
+</html>
